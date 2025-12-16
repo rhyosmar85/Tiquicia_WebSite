@@ -82,6 +82,38 @@
                 'Dirt / Organics'
             ];
 
+            const images = [
+                'materials/img_1.jpeg',
+                'materials/img_2.jpeg',
+                'materials/img_3.jpeg',
+                'materials/img_4.jpeg',
+                'materials/img_5.jpeg',
+                'materials/img_6.jpeg',
+                'materials/img_7.jpeg',
+                'materials/img_8.jpeg',
+                'materials/img_9.jpeg',
+                'materials/img_13.jpeg',
+                'materials/img_14.jpeg',
+                'materials/img_15.jpeg',
+                'materials/img_16.jpeg',
+                'materials/img_17.jpeg',
+                'materials/img_18.jpeg',
+                'materials/img_19.jpeg',
+                'materials/img_20.jpeg',
+                'materials/img_21.jpeg',
+                'materials/img_22.jpeg',
+                'materials/img_23.jpeg',
+                'materials/img_24.jpeg'
+            ];
+
+            const visibleImages = 3;
+            const totalSlides = Math.ceil(images.length / visibleImages);
+            const [currentIndex, setCurrentIndex] = useState(0);
+
+            const nextSlide = () => setCurrentIndex((prev) => (prev + 1) % totalSlides);
+
+            const prevSlide = () => setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+
             return (
                 <div className="min-h-screen bg-slate-900">
                     {/* Navigation */}
@@ -161,6 +193,25 @@
                                         <p className="text-gray-300">{material.description}</p>
                                     </div>
                                 ))}
+                            </div>
+
+                            {/* Material Images Carousel */}
+                            <div className="mt-12">
+                                <h3 className="text-2xl font-bold text-white mb-4 text-center">Material</h3>
+                                <div className="relative overflow-hidden rounded-lg bg-slate-900 p-4">
+                                    <div className="flex transition-transform duration-500" style={{ transform: `translateX(-${currentIndex * (100 / visibleImages)}%)` }}>
+                                        {images.map((img, idx) => (
+                                            <img key={idx} src={img} alt={`Material ${idx + 1}`} className="flex-1 object-contain max-h-96" />
+                                        ))}
+                                    </div>
+                                    <button onClick={prevSlide} className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75">‹</button>
+                                    <button onClick={nextSlide} className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75">›</button>
+                                </div>
+                                <div className="flex justify-center mt-4">
+                                    {Array.from({length: totalSlides}, (_, idx) => (
+                                        <button key={idx} onClick={() => setCurrentIndex(idx)} className={`w-3 h-3 rounded-full mx-1 ${idx === currentIndex ? 'bg-amber-500' : 'bg-gray-500'}`}></button>
+                                    ))}
+                                </div>
                             </div>
 
                             <div className="bg-amber-900 border-l-4 border-amber-500 p-6 rounded-lg">
